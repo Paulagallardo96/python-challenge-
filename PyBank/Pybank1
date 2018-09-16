@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Sep 13 15:56:25 2018
+
+@author: paulaamandagallardo
+"""
+
+import os
+import csv
+
+mypath = "/Users/paulaamandagallardo/Desktop/DataAnalyticsGW/Python/python-challenge/python-challenge-/PyBank"
+csvpath = os.path.join(mypath, 'budget_data.csv')
+
+# Open and read csv
+with open(csvpath, newline='') as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=',')
+    
+    print(csvreader)
+    
+    csv_header = next(csvreader)
+    #print(f"CSV Header: {csv_header}")
+    
+        
+    count = 0
+    
+    total = 0
+    diffs = []
+    #diffThisMonth1 = 0
+    firstFlag = True
+    diffdates = []
+    
+    for row in csvreader:
+        row = row[0].split(",")
+        #print(row)
+        count = count + 1
+        
+        amount = int(row[1])
+        total += amount 
+        
+        #diffThisMonth = int(row[1])
+        #diffThisMonth1 += diffThisMonth
+        
+        # do this line only if we've already been through the loop at least once
+        if firstFlag == False:
+            
+            #add a new entry to diffs equal to the diff between this months amount and last months
+            diffThisMonth = amount - amountLastMonth
+            diffs.append(diffThisMonth)
+            diffdates.append(row[0])
+            
+        else:
+            # Record the fact that we've been through the loop once
+            firstFlag = False
+        
+        amountLastMonth = amount 
+
+        
+        #diffThisMonth = int(row[1])
+        #diffThisMonth1 += int(diffThisMonth)
+        
+        Total_diffThisMonth = sum(diffs)
+    
+    average = Total_diffThisMonth / (count - 1)
+        
+        #average = total / count
+    
+        #diffThisMonth = amount - amountLastMonth
+        #diffs.append(diffThisMonth)
+        #add a new entry to diffs equal to the diff between this monts amount and last months
+        
+        ##amountLastMonth = amount 
+        
+#The greatest increase in profits (date and amount) over the entire period
+        
+    GreatesIncreaseIncome = max(diffs)
+    MaxMonthIndex = diffs.index(GreatesIncreaseIncome)
+    MaxMonth = diffdates[MaxMonthIndex]
+        
+#The greatest decrease in losses (date and amount) over the entire period
+        
+    GreatedDecreaseIncome = min(diffs)
+    MinMonthIndex = diffs.index(GreatedDecreaseIncome)
+    MinMonth = diffdates[MinMonthIndex]
+        
+    print("Financial Analysis")  
+    print("----------------------------------")
+    print("Total Months: " + str(count))
+    print("Total: $" + str(total))
+    print("Average Change: $" + str(average))
+    print("Greatest Increase in Profits: " + str(MaxMonth) + " " + str(GreatesIncreaseIncome))
+    print("Greatest Decrease in Profits: " + str(MinMonth) + " " + str(GreatedDecreaseIncome))
+    
+    
+#open text file 
+    
+with open("pybank.txt", "w") as txtfile:
+     txtfile.write("Financial Analysis" + "\n")
+     txtfile.write("----------------------------------" + "\n")
+     txtfile.write("Total Months: " + str(count) + "\n")
+     txtfile.write("Total: $" + str(total) + "\n")
+     txtfile.write("Average Change: $" + str(average) + "\n")
+     txtfile.write("Greatest Increase in Profits: " + str(MaxMonth) + " " + str(GreatesIncreaseIncome) + "\n")
+     txtfile.write("Greatest Decrease in Profits: " + str(MinMonth) + " " + str(GreatedDecreaseIncome) + "\n")
+    
+     textfile.close()
+
+    
